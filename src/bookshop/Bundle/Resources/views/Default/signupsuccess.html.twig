@@ -1,0 +1,22 @@
+{% block style %}
+<style>
+#success
+{
+background-color:#355BA7;
+margin-top:100px;
+padding:100px;
+color:white;
+}
+</style>
+{%endblock%}
+{% block content %}
+<div id="success">
+Hi! {{name}}
+</br>
+<h1>Successfully Account created! </h1>
+</br>
+The Page Will Be automatically redirect to home page in 5 Seconds or 
+<meta http-equiv="refresh" content="5; URL={{path('bookshop_homepage')}}">
+<a href="">Click here to Go home page Manually</a>
+</div>
+{% endblock %}

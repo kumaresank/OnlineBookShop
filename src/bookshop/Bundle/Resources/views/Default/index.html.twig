@@ -1,0 +1,250 @@
+{% block begin %}
+<html>
+	<head>
+		<title>Welcome To Online Shopping
+		</title>
+		<link rel="icon" 
+      type="image/png" 
+      href="{{asset('image/favicon.jpg')}}"/>
+{%endblock%}      
+{% block style%}
+      <link rel="stylesheet" href="{{asset('css/index.css')}}"/>
+      <link rel="stylesheet" href="{{asset('css/signin.css')}}"/>
+      <link rel="stylesheet" href="{{asset('css/signup.css')}}"/>
+      <link rel="stylesheet" href="{{asset('css/jquery-ui.css')}}" />
+      <style>
+				.pagination li
+				{
+					background-color:green;
+					color:white;
+					padding:10px;
+					border:2px solid;
+					border-radius:15px;
+					display:inline;
+				}
+				</style>
+{%endblock%}
+{% block script %}
+      <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+      <script type="text/javascript" src="{{asset('js/popwindow.js')}}"></script>
+      <script type="text/javascript" src="{{asset('js/popsignup.js')}}"></script>
+      <script type="text/javascript" src="{{asset('js/login.js')}}"></script>
+      <script src="{{asset('js/jquery-ui.js')}}"></script>
+      <script>
+      $(document).ready(function() {   
+      $(".buy").click(function() {
+				 var id = $(this).attr("id");
+				  	  $.ajax({ 
+					  url : "{{path('bookshop_cart')}}" ,
+					  type : "POST" ,
+					  dataType : 'json' ,
+					  {%if current_page is defined%}
+					  data : {'page':{{current_page}} , 'id': id } ,
+					  {%endif%}
+					  {%if page is defined%}
+					  data : {'page':1 , 'id': {{page}} } ,
+					  {%endif%}
+					   success : function(msg)
+					  {
+						  if(msg == "Please Login First")
+						  {
+							  alert(msg);
+						  }
+						  else
+						  {
+						  $(".cart-count").html("Cart(" +msg+ ")");	
+						  }
+					  }	,
+					  error : function()
+					  {
+					  alert("error");
+					  }				  
+					  });
+				  });
+			
+	});
+
+      </script>
+   <script>
+$.widget( "custom.catcomplete", $.ui.autocomplete, {
+		_create: function() {
+			this._super();
+			this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+		},
+		_renderMenu: function( ul, items ) {
+			var that = this,
+				currentCategory = "";
+			$.each( items, function( index, item ) {
+				var li;
+				if ( item.category != currentCategory ) {
+					ul.append( "<b><li class='ui-autocomplete-category'>" + item.category + "</li></b>" );
+					currentCategory = item.category;
+				}
+				li = that._renderItemData( ul, item );
+				if ( item.category ) {
+					li.attr( "aria-label", item.category + " : " + item.label);
+				}
+			});
+		}
+	});
+	</script>
+	<script>
+	$(function() {
+		
+		var data = "{{path('search_auto')}}" ;
+		$( "#searchtext" ).catcomplete({
+			delay: 0,
+			max:10,
+			source: data,
+			select:function(event,ui)
+			{
+			$(this).val(ui.item.value);
+			$('.search').submit();
+			}
+		});
+		
+	});
+	</script>
+   
+      
+       {%endblock%}
+      {% block menu %}
+      <body>
+		<div class="container">
+			<div class="header">
+				<img src="{{asset('image/header.jpg')}}" style="width:1000px;height:130px;">
+			</div>
+			<div class="menu">
+<div class="home">
+				
+					<a class="hm" href="{{path('bookshop_homepage')}}">Home</a>
+					</div>
+					<style>
+					.search
+					{
+					margin-left:200px;
+					}
+					.search li
+					{
+					float:left;
+					padding-top:3px;
+					diplay:inline;
+					}
+					#searchtext
+					{
+					outline: none;
+					border: none;
+					width:300px
+					}
+					#searchbutton
+					{
+					color:white;
+					background-color:#1BBA9A;
+					outline: none;
+					border: none;
+					}
+					#searchbutton:hover
+					{
+					color:white;
+					background-color:green;
+					outline: none;
+					border: none;
+					}
+					fieldset 
+					{
+					border: 0;
+					margin: 0;
+					padding: 0;
+					}
+					
+					</style>
+					<fieldset>
+<form action="{{path('search_search')}}" class="search">
+<ul type="none">
+        <li><input id="searchtext" type="text" name = "srtxt" placeholder="Search here.." required="" autocomplete="off"></li>
+        <li><input id="searchbutton" type="submit" value="Search"></li>
+</ul>
+</form>
+</fieldset>
+					
+<div class="login">
+{%if name is defined%}
+<span style="line-height:30px;padding-left:30px;color:white">Hi! {{name}} </span>
+<a href="{{path('bookshop_logout')}}" class="username">Logout</a> &nbsp;&nbsp; 
+<a href="{{path('bookshop_products')}}" class="cart-count">Cart({%if cart is defined%}{{cart}}{%else%}0{%endif%})</a>
+{%else%}
+<a href="#signup-box" class="login-window">SignUp</a> &nbsp;&nbsp; 
+<a href="#login-box" class="signup-window">SignIn</a>
+{%endif%}
+</div>
+</div>
+{%endblock%}
+
+{% block content %}
+<div class="contetnt">
+{%for book in books%}
+<div class="booklist">
+    <img id="img" src="{{asset(book.bookpath)}}">
+	</div>
+	<div class="book_details">
+	<br/>
+		<b>Book Name:</b> &nbsp; <span class="bookname" style="color:#888888">{{book.bookname}}</span>
+		<p><b>Publisher Name:</b> &nbsp; <span class="publishername" style="color:#888888">{{book.bookpublisher}}</span><a id="{{loop.index}}" class="buy" href="#" >Buy</a></p>
+		<p><b>Author Name:</b> &nbsp; <span style="color:#888888"></span><span class="author" style="color:#888888">{{book.bookauthor}}</span></p>
+		<p><b>Price:</b> &nbsp; <span style="color:#888888">Rs.</span><span class="price4" style="color:#888888">{{book.bookprice}}</span></p>
+	</div>
+	<hr style="clear:both"/>            
+	
+{%endfor%}
+</div>
+{% endblock %}
+
+
+{% block navigation %}
+<div class="row">
+        <div class="span4">
+        <center>
+        {%if total_pages is defined%}
+            {%if total_pages > 0%}            
+            <div class="pagination">
+                <ul>
+                    {%for i in 1..total_pages%}
+                        {%if loop.first %}
+                    <li class="prev {%if current_page==1%} disabled{%endif%}"><a href="{{path('bookshop_homepage',{'page':current_page-1})}}">← Previous</a></li>
+                        {%endif%}
+                    <li {%if current_page==loop.index%} class="active"{%endif%}><a href="{{path('bookshop_homepage',{'page':loop.index})}}">{{loop.index}}</a></li> 
+                   
+                    {%if loop.last %}
+                    <li class="next{%if current_page==total_pages%} disabled {%endif%}"><a href="{{path('bookshop_homepage',{'page':current_page+1})}}">Next → </a></li>
+                      {%endif%}
+                    {%endfor%}
+                </ul>
+            </div>
+             {%endif%}
+             {%endif%}
+        </div>
+        </center>
+    </div>
+    
+    
+    <div id="login-box" class="login-popup">
+        <a href="#" class="close">x</a>
+          <form action ="{{path('bookshop_login')}}" name="form1" id="form1" method="post">
+			<input type="email" placeholder="Enter Email Address" name="username" required></br>
+			<input type="password" placeholder="Enter Password" name="pass" required></br>
+			<input class="login_button" type="submit" value="Login">
+		</form>
+		</div>
+		<div id="signup-box" class="signup-popup">
+        <a href="#" class="close">x</a>
+          <form name="form2" id="form2"  action="{{path('bookshop_signup')}}" method="post">
+			<input type="text" name="name" placeholder="Enter Your Name" required></br>
+			<input type="email" name="email" placeholder="Enter your Email Address" required></br>
+			<input type="password" name="new_pass" placeholder="Type New Password" required></br>
+			<input type="password" name="retype_pass" placeholder="Retype Password" required></br>
+			<input class="signup_button" type="submit" value="Create Account">
+		</form>
+		</div>
+		{% endblock %}
+		</body>
+		</html>

@@ -1,0 +1,87 @@
+<script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+<style>
+	.bookdetails
+{
+padding:20px;
+background-color:#FDC3B4;
+}
+img
+{
+width:100px;
+height:100px;
+padding: 5px;
+border: 1px solid white;
+}
+.book
+{
+padding:20px;
+width:120px;
+float:left;
+margin:0px;
+}
+#menu
+{
+	height:30px;
+	background-color:#002918;
+}
+#menu a
+{
+	text-decoration:none;
+	float:right;
+	padding-left:15px;
+	padding-right:15px;
+	color:white;
+	line-height:30px;
+}
+#menu a:hover{background-color:#F67423}
+.cancel
+{
+text-decoration:none;
+color:white;
+background-color:#AD54B0;
+height:50px;width:75px;text-align:center;
+line-height:50px;float:right;
+}
+.cancel:hover{
+background-color:#430525;
+}
+
+</style>
+	<body>
+		<div id="container">
+			<div id="menu"><a style="float:left" href="{{path('bookshop_homepage')}}">Home</a>
+{%if name is defined%}
+<span style="line-height:30px;padding-left:30px;color:white">Hi! {{name}} </span>
+<a href="{{path('bookshop_logout')}}" class="username">Logout</a> &nbsp;&nbsp; 
+<a href="{{path('bookshop_products')}}" class="cart-count">Cart({%if cart is defined%}{{cart}}{%else%}0{%endif%})</a>
+{%endif%}
+			</div><br/>
+ {%for key,bk in books%}
+ {%for book in bk%}
+ </br>
+<div class="book">
+	<img id="img1" src="{{asset(book.bookpath)}}">
+	</div>
+	<div class="bookdetails">
+		<b>Book Name:</b> &nbsp; <span class="bookname_first" style="color:#888888">{{book.bookname}}</span><span style="float:right;color:red;padding-right:20px;" id="qty">Qty&nbsp;:&nbsp;{{qty[key]}}</span>
+		<p><b>Publisher Name:</b> &nbsp; <span class="publishername_first" style="color:#888888">{{book.bookpublisher}}</span><a id="{{key}}" class="cancel" href="{{path('bookshop_removecart',{'id':key})}}" >Cancel</a></p>
+		<p><b>Author Name:</b> &nbsp; <span style="color:#888888"></span><span class="author" style="color:#888888">{{book.bookauthor}}</span></p>
+		<p><b>Price:</b> &nbsp; <span style="color:#888888">Rs.</span><span class="price_first" style="color:#888888">{{book.bookprice}}</span><span style="float:right">Rs:{{qtyprice[key]}}</span></p>
+	</div>
+	<hr style="clear:both"/>
+{%endfor%}
+{%endfor%}
+<style>
+	#total
+	{ 
+		background-color:red;color:white;
+		padding:15px;
+	}
+	#total:hover{background-color:green}
+</style><br/>
+<div style="height:30px">
+<span style="float:right"><b>Total:</b>&nbsp;&nbsp;<a id="total" class="purcahse" href="#" >{{price}}</a></span>	
+</div>
+		</div>
+	</body>
+</html>

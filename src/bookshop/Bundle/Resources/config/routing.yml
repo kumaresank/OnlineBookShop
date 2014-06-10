@@ -1,0 +1,36 @@
+bookshop_homepage:
+    pattern:  /index
+    defaults: { _controller: bookshopBundle:Default:index }
+
+bookshop_signup:
+    pattern:  /signup
+    defaults: { _controller: bookshopBundle:Default:signup }
+
+bookshop_login:
+    pattern:  /login
+    defaults: { _controller: bookshopBundle:Default:login }
+
+bookshop_logout:
+    pattern:  /logout
+    defaults: { _controller: bookshopBundle:Default:logout }
+
+bookshop_cart:
+    pattern:  /cart
+    defaults: { _controller: bookshopBundle:Default:cart }
+    
+
+bookshop_products:
+    pattern:  /products
+    defaults: { _controller: bookshopBundle:Default:products }
+
+bookshop_removecart:
+    pattern:  /removecart
+    defaults: { _controller: bookshopBundle:Default:removecart }
+    
+search_search:
+    pattern:  /search
+    defaults: { _controller: bookshopBundle:Search:search }
+
+search_auto:
+    pattern:  /auto
+    defaults: { _controller: bookshopBundle:Search:auto }

@@ -1,0 +1,90 @@
+body
+{
+background-color:#bdbdbd;
+}
+.container
+{
+width:1000px;
+background-color:#ffffff;
+margin:auto
+}
+.header
+{
+width:1000px;
+background-color:#0F44F0;
+height:130px;
+}
+.menu
+{
+
+background-color:#29B7EA;
+height:30px;
+}
+a
+{
+text-decoration:none;
+color:#ffffff;
+}
+.home a
+{
+float:left;
+padding:6px 0 0 10px;
+height:24px;
+display:block;
+width:50px;
+}
+.login a
+{
+padding:0;
+float:right;
+height:24px;
+padding:6px 10px 0 15px;
+}
+.login
+{
+margin-top:-25px;
+}
+.home a:hover{background-color:#4386FA}
+.login a:hover{background-color:#4386FA}
+.book_first
+{
+padding:20px;
+width:120px;
+float:left;
+margin:0px;
+}
+.booklist img
+{
+width:100px;
+height:100px;
+padding: 5px;
+border: 1px solid gray;
+}
+.content {
+margin: 10px auto;
+width: 800px;
+background-color: #c1c1c1;
+}
+.buy
+{
+text-decoration:none;
+background-color:#888888;
+height:50px;width:75px;text-align:center;
+line-height:50px;float:right;
+margin-right:50px;
+}
+.buy:hover{text-decoration:none;
+background-color:black;
+}
+.booklist
+{
+padding:20px;
+width:120px;
+float:left;
+margin:0px;
+}
+.book_details
+{
+margin-left:200px;
+}
+}
